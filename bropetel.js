@@ -1,28 +1,42 @@
 const buttons = document.querySelectorAll('button');
 const display = document.getElementById('display');
 let isResult = false;
-let isOperator = false;
 
 buttons.forEach(button => {
     button.addEventListener('click', function(){
         const value = button.value;
 
             // Result
-        if(value === '='){
-            display.value = eval(display.value.replace(/×|,/g, doesMatch => doesMatch === '×' ? '*' : '.'));
-            isResult = true; 
+        if (value === '=') {
+            display.value = eval(display.value.replace(/×|÷|,/g, doesMatch=> 
+                doesMatch === '×' ? '*' : 
+                doesMatch === '÷' ? '/' : 
+                '.'
+            ));
+            isResult = true;
         }
-        
             // aesthetics for   * -> X
         else if(value === '*'){
-            display.value += '×';
-            isResult = false;
+            if(display.value.slice(-1) !== '×'){
+                display.value += '×';
+                isResult = false;
+            }
         }
 
             // aesthetics for . -> ,
         else if(value === '.'){
-            display.value += ',';
-            isResult = false;
+            if(display.value.slice(-1) !== ','){
+                display.value += ',';
+                isResult = false;
+            }
+        }
+
+            // aesthetics for . -> ,
+        else if(value === '/'){
+            if(display.value.slice(-1) !== '÷'){
+                display.value += '÷';
+                isResult = false;
+            }
         }
 
             // Delete 1 digit
@@ -30,7 +44,7 @@ buttons.forEach(button => {
             if(display.value.length > 1){
                 display.value = display.value.slice(0, -1)
             }else if(display.value.length <= 1){
-                display.value = ''
+                display.value = '';
             }
 
             // Deletes all digits
@@ -56,14 +70,17 @@ buttons.forEach(button => {
             isResult = false;
         }
         
+            // Can't place an operator next to another operator
+        else if(['+', '-', '/',].includes(display.value.slice(0, -1))){
+            display.value += '';
+        }
+
             // Displays the current value
         else{
             display.value += value;
         }
 
         
+        
     })
 });
-
-
-
