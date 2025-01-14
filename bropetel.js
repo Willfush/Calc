@@ -58,7 +58,7 @@ buttons.forEach(button => {
         }
         
             // Deletes the result if a number is pressed and displays the pressed digit
-        else if((value === '0' || value === '00' || value === '1' || value === '2' || value === '3' || value === '4' || value === '5' || value === '6' || value === '7' || value === '8' || value === '9') && isResult === true){
+        else if((value >= '0' && value <= '9') && isResult === true){
             display.value = '';
             display.value = value;
             isResult = false;
@@ -71,7 +71,7 @@ buttons.forEach(button => {
         }
         
             // Can't place an operator next to another operator
-        else if(['+', '-', '/',].includes(display.value.slice(0, -1))){
+        else if(['+', '-', '×', '÷'].includes(display.value.slice(-1)) && ['+', '-', '×', '÷'].includes(value)){
             display.value += '';
         }
 
@@ -79,8 +79,5 @@ buttons.forEach(button => {
         else{
             display.value += value;
         }
-
-        
-        
     })
 });
